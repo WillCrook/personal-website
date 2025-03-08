@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will Crook - Portfolio</title>
+  <!-- Font Awesome for social media icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary: #000;
+      --secondary: #fff;
+      --bg: #0d0d0d;
+      --accent: #00b4d8;
+      --blueprint-color: rgba(0, 180, 216, 0.3);
+      --blueprint-line: rgba(0, 180, 216, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--secondary);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Blueprint Background */
+    #blueprint-bg {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .blueprint-grid {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background-size: 50px 50px;
+      background-image:
+        linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px);
+    }
+
+    .blueprint-circle {
+      position: absolute;
+      border: 1px solid var(--blueprint-line);
+      border-radius: 50%;
+      opacity: 0.7;
+      transition: transform 0.3s ease-out;
+    }
+
+    .blueprint-line {
+      position: absolute;
+      background-color: var(--blueprint-line);
+      transform-origin: left center;
+      transition: transform 0.3s ease-out;
+    }
+
+    .blueprint-shape {
+      position: absolute;
+      border: 1px solid var(--blueprint-line);
+      opacity: 0.7;
+      transition: transform 0.3s ease-out;
+    }
+
+    .blueprint-design {
+      position: absolute;
+      border: 1px solid var(--blueprint-line);
+      opacity: 0.7;
+      transition: transform 0.3s ease-out;
+    }
+
+    .blueprint-circuit {
+      position: absolute;
+      border: 1px solid var(--blueprint-line);
+      opacity: 0.7;
+    }
+
+    .circuit-node {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: var(--blueprint-line);
+      border-radius: 50%;
+    }
+
+    /* Navigation */
+    nav {
+      padding: 20px 0;
+      position: fixed;
+      width: 100%;
+      background: rgba(13, 13, 13, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    .nav-links a {
+      color: var(--secondary);
+      text-decoration: none;
+      margin-left: 30px;
+      transition: transform 0.3s;
+    }
+
+    .nav-links a:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content h1 {
+      font-size: 72px;
+      margin-bottom: 20px;
+      color: var(--secondary);
+    }
+
+    .hero-content p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    /* Hero Social Links */
+    .hero-social-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .hero-social-links a {
+      color: var(--secondary);
+      font-size: 24px;
+      transition: transform 0.3s;
+      text-decoration: none;
+    }
+
+    .hero-social-links a i {
+      margin-right: 5px;
+    }
+
+    .hero-social-links a:hover {
+      transform: translateY(-5px);
+    }
+
+    /* About Section */
+    .about {
+      padding: 100px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 50px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .about-image {
+      border-radius: 50%;
+      overflow: hidden;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.3s;
+    }
+
+    .about-image:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Portfolio Section */
+    .portfolio {
+      padding: 100px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .portfolio-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-10px);
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 100px 0;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--secondary);
+      border-radius: 5px;
+      color: var(--secondary);
+    }
+
+    button {
+      background: var(--secondary);
+      color: var(--bg);
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    /* Social Links */
+    .social-links {
+      position: fixed;
+      left: 40px;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .social-links a {
+      color: var(--secondary);
+      font-size: 24px;
+      transition: transform 0.3s;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 48px;
+      }
+
+      .social-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container nav-content">
+      <a href="#" class="logo">Will Crook</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <!-- Blueprint Background (only for hero section) -->
+    <div id="blueprint-bg">
+      <div class="blueprint-grid"></div>
+      <!-- Blueprint elements will be added dynamically -->
+    </div>
+    
+    <div class="container">
+      <div class="hero-content" data-aos="fade-up">
+        <h1>Hi, I'm Will Crook</h1>
+        <p>A passionate developer creating amazing digital experiences</p>
+        <div class="hero-social-links">
+          <a href="https://github.com/yourprofile" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://linkedin.com/in/yourprofile" target="_blank">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/yourprofile" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image" data-aos="fade-right">
+          <img src="your-image.jpg" alt="Will Crook">
+        </div>
+        <div class="about-content" data-aos="fade-left">
+          <h2>About Me</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio">
+    <div class="container">
+      <h2 data-aos="fade-up">My Portfolio</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item" data-aos="fade-up">
+          <h3>Project 1</h3>
+          <p>Description of your amazing project</p>
+        </div>
+        <div class="portfolio-item" data-aos="fade-up" data-aos-delay="200">
+          <h3>Project 2</h3>
+          <p>Description of your amazing project</p>
+        </div>
+        <div class="portfolio-item" data-aos="fade-up" data-aos-delay="400">
+          <h3>Project 3</h3>
+          <p>Description of your amazing project</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 data-aos="fade-up">Get In Touch</h2>
+      <div class="contact-form" data-aos="fade-up">
+        <form>
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+          <textarea rows="5" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Links -->
+  <div class="social-links">
+    <a href="#"><i class="fab fa-github"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+  </div>
+
+  <!-- Blueprint Background Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const blueprintBg = document.getElementById('blueprint-bg');
+      const shapes = ['circle', 'rectangle', 'triangle', 'line'];
+      const numElements = 30;
+      
+      // Create basic blueprint elements
+      for (let i = 0; i < numElements; i++) {
+        const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+        createBlueprintElement(shapeType, blueprintBg);
+      }
+      
+      // Create blueprint designs
+      createCarBlueprint(blueprintBg);
+      createRocketBlueprint(blueprintBg);
+      createPlaneBlueprint(blueprintBg);
+      
+      // Create circuitry
+      createCircuitry(blueprintBg, 5);
+      
+      // Make blueprint interactive with mouse movement
+      document.addEventListener('mousemove', function(e) {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        // Affect all blueprint elements with interactive movement
+        const elements = document.querySelectorAll('.blueprint-circle, .blueprint-line, .blueprint-shape, .blueprint-design, .blueprint-circuit');
+        elements.forEach(element => {
+          // Calculate distance from mouse for interactive effect
+          const rect = element.getBoundingClientRect();
+          const elementX = rect.left + rect.width / 2;
+          const elementY = rect.top + rect.height / 2;
+          const distance = Math.sqrt(Math.pow(mouseX - elementX, 2) + Math.pow(mouseY - elementY, 2));
+          
+          // Add interactive movement if mouse is close
+          if (distance < 200) {
+            const interactiveForce = (1 - distance / 200) * 10;
+            const directionX = (mouseX - elementX) / distance;
+            const directionY = (mouseY - elementY) / distance;
+            const moveX = directionX * interactiveForce;
+            const moveY = directionY * interactiveForce;
+            
+            // Apply the transformation
+            element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+          } else {
+            element.style.transform = 'translate(0px, 0px)';
+          }
+        });
+      });
+    });
+    
+    function createBlueprintElement(type, container) {
+      const element = document.createElement('div');
+      const size = Math.random() * 100 + 50;
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight * 2; // Extend beyond viewport for scrolling
+      
+      switch(type) {
+        case 'circle':
+          element.className = 'blueprint-circle';
+          element.style.width = `${size}px`;
+          element.style.height = `${size}px`;
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+          break;
+          
+        case 'rectangle':
+          element.className = 'blueprint-shape';
+          element.style.width = `${size}px`;
+          element.style.height = `${size * 0.6}px`;
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+          break;
+          
+        case 'triangle':
+          element.className = 'blueprint-shape';
+          element.style.width = `${size}px`;
+          element.style.height = `${size}px`;
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+          element.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+          break;
+          
+        case 'line':
+          element.className = 'blueprint-line';
+          element.style.width = `${size}px`;
+          element.style.height = '1px';
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+          element.style.transform = `rotate(${Math.random() * 360}deg)`;
+          break;
+      }
+      
+      container.appendChild(element);
+    }
+    
+    function createCarBlueprint(container) {
+      const car = document.createElement('div');
+      car.className = 'blueprint-design';
+      car.style.width = '300px';
+      car.style.height = '100px';
+      car.style.left = `${Math.random() * (window.innerWidth - 300)}px`;
+      car.style.top = `${Math.random() * (window.innerHeight - 100)}px`;
+      car.style.borderRadius = '20px 60px 0 0';
+      car.style.borderBottom = '2px solid var(--blueprint-line)';
+      
+      // Car details
+      const wheel1 = document.createElement('div');
+      wheel1.className = 'blueprint-circle';
+      wheel1.style.width = '40px';
+      wheel1.style.height = '40px';
+      wheel1.style.left = '40px';
+      wheel1.style.bottom = '-20px';
+      wheel1.style.position = 'absolute';
+      
+      const wheel2 = document.createElement('div');
+      wheel2.className = 'blueprint-circle';
+      wheel2.style.width = '40px';
+      wheel2.style.height = '40px';
+      wheel2.style.right = '40px';
+      wheel2.style.bottom = '-20px';
+      wheel2.style.position = 'absolute';
+      
+      const windshield = document.createElement('div');
+      windshield.className = 'blueprint-line';
+      windshield.style.width = '2px';
+      windshield.style.height = '50px';
+      windshield.style.left = '180px';
+      windshield.style.top = '10px';
+      windshield.style.position = 'absolute';
+      windshield.style.transform = 'rotate(30deg)';
+      
+      car.appendChild(wheel1);
+      car.appendChild(wheel2);
+      car.appendChild(windshield);
+      
+      // Add label
+      const label = document.createElement('div');
+      label.style.position = 'absolute';
+      label.style.bottom = '-30px';
+      label.style.left = '50%';
+      label.style.transform = 'translateX(-50%)';
+      label.style.color = 'var(--blueprint-line)';
+      label.style.fontSize = '12px';
+      label.textContent = 'CAR DESIGN v1.2';
+      car.appendChild(label);
+      
+      container.appendChild(car);
+    }
+    
+    function createRocketBlueprint(container) {
+      const rocket = document.createElement('div');
+      rocket.className = 'blueprint-design';
+      rocket.style.width = '80px';
+      rocket.style.height = '250px';
+      rocket.style.left = `${Math.random() * (window.innerWidth - 80)}px`;
+      rocket.style.top = `${Math.random() * (window.innerHeight - 250)}px`;
+      
+      // Rocket body
+      const body = document.createElement('div');
+      body.className = 'blueprint-shape';
+      body.style.width = '60px';
+      body.style.height = '180px';
+      body.style.left = '10px';
+      body.style.top = '40px';
+      body.style.position = 'absolute';
+      
+      // Rocket nose
+      const nose = document.createElement('div');
+      nose.className = 'blueprint-shape';
+      nose.style.width = '60px';
+      nose.style.height = '60px';
+      nose.style.left = '10px';
+      nose.style.top = '0';
+      nose.style.position = 'absolute';
+      nose.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+      
+      // Rocket fins
+      const fin1 = document.createElement('div');
+      fin1.className = 'blueprint-shape';
+      fin1.style.width = '30px';
+      fin1.style.height = '40px';
+      fin1.style.left = '-20px';
+      fin1.style.bottom = '0';
+      fin1.style.position = 'absolute';
+      fin1.style.clipPath = 'polygon(100% 0%, 0% 100%, 100% 100%)';
+      
+      const fin2 = document.createElement('div');
+      fin2.className = 'blueprint-shape';
+      fin2.style.width = '30px';
+      fin2.style.height = '40px';
+      fin2.style.right = '-20px';
+      fin2.style.bottom = '0';
+      fin2.style.position = 'absolute';
+      fin2.style.clipPath = 'polygon(0% 0%, 0% 100%, 100% 100%)';
+      
+      rocket.appendChild(body);
+      rocket.appendChild(nose);
+      rocket.appendChild(fin1);
+      rocket.appendChild(fin2);
+      
+      // Add label
+      const label = document.createElement('div');
+      label.style.position = 'absolute';
+      label.style.bottom = '-30px';
+      label.style.left = '50%';
+      label.style.transform = 'translateX(-50%)';
+      label.style.color = 'var(--blueprint-line)';
+      label.style.fontSize = '12px';
+      label.textContent = 'ROCKET PROTOTYPE';
+      rocket.appendChild(label);
+      
+      container.appendChild(rocket);
+    }
+    
+    function createPlaneBlueprint(container) {
+      const plane = document.createElement('div');
+      plane.className = 'blueprint-design';
+      plane.style.width = '300px';
+      plane.style.height = '200px';
+      plane.style.left = `${Math.random() * (window.innerWidth - 300)}px`;
+      plane.style.top = `${Math.random() * (window.innerHeight - 200)}px`;
+      
+      // Plane body
+      const body = document.createElement('div');
+      body.className = 'blueprint-shape';
+      body.style.width = '200px';
+      body.style.height = '40px';
+      body.style.left = '50px';
+      body.style.top = '80px';
+      body.style.position = 'absolute';
+      body.style.borderRadius = '50px 50px 0 0';
+      
+      // Plane wings
+      const wing = document.createElement('div');
+      wing.className = 'blueprint-shape';
+      wing.style.width = '240px';
+      wing.style.height = '30px';
+      wing.style.left = '30px';
+      wing.style.top = '90px';
+      wing.style.position = 'absolute';
+      
+      // Plane tail
+      const tail = document.createElement('div');
+      tail.className = 'blueprint-shape';
+      tail.style.width = '40px';
+      tail.style.height = '60px';
+      tail.style.right = '30px';
+      tail.style.top = '40px';
+      tail.style.position = 'absolute';
+      
+      plane.appendChild(body);
+      plane.appendChild(wing);
+      plane.appendChild(tail);
+      
+      // Add label
+      const label = document.createElement('div');
+      label.style.position = 'absolute';
+      label.style.bottom = '-30px';
+      label.style.left = '50%';
+      label.style.transform = 'translateX(-50%)';
+      label.style.color = 'var(--blueprint-line)';
+      label.style.fontSize = '12px';
+      label.textContent = 'AIRCRAFT DESIGN';
+      plane.appendChild(label);
+      
+      container.appendChild(plane);
+    }
+    
+    function createCircuitry(container, numCircuits) {
+      for (let i = 0; i < numCircuits; i++) {
+        const circuit = document.createElement('div');
+        circuit.className = 'blueprint-circuit';
+        circuit.style.width = '200px';
+        circuit.style.height = '200px';
+        circuit.style.left = `${Math.random() * (window.innerWidth - 200)}px`;
+        circuit.style.top = `${Math.random() * (window.innerHeight - 200)}px`;
+        circuit.style.position = 'absolute';
+        
+        // Create nodes and connections
+        const numNodes = Math.floor(Math.random() * 6) + 4;
+        const nodes = [];
+        
+        // Create nodes
+        for (let j = 0; j < numNodes; j++) {
+          const node = document.createElement('div');
+          node.className = 'circuit-node';
+          const x = Math.random() * 180 + 10;
+          const y = Math.random() * 180 + 10;
+          node.style.left = `${x}px`;
+          node.style.top = `${y}px`;
+          circuit.appendChild(node);
+          nodes.push({x, y, element: node});
+        }
+        
+        // Create connections between nodes
+        for (let j = 0; j < nodes.length; j++) {
+          const startNode = nodes[j];
+          // Connect to 1-3 other nodes
+          const connections = Math.floor(Math.random() * 3) + 1;
+          
+          for (let k = 0; k < connections; k++) {
+            const endNodeIndex = (j + k + 1) % nodes.length;
+            const endNode = nodes[endNodeIndex];
+            
+            const line = document.createElement('div');
+            line.className = 'blueprint-line';
+            
+            // Calculate line length and angle
+            const dx = endNode.x - startNode.x;
+            const dy = endNode.y - startNode.y;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            line.style.width = `${length}px`;
+            line.style.height = '1px';
+            line.style.left = `${startNode.x + 3}px`;
+            line.style.top = `${startNode.y + 3}px`;
+            line.style.transformOrigin = 'left center';
+            line.style.transform = `rotate(${angle}deg)`;
+            line.style.position = 'absolute';
+            
+            circuit.appendChild(line);
+          }
+        }
+        
+        // Add label
+        const label = document.createElement('div');
+        label.style.position = 'absolute';
+        label.style.bottom = '-20px';
+        label.style.left = '50%';
+        label.style.transform = 'translateX(-50%)';
+        label.style.color = 'var(--blueprint-line)';
+        label.style.fontSize = '12px';
+        label.textContent = 'CIRCUIT DIAGRAM';
+        circuit.appendChild(label);
+        
+        container.appendChild(circuit);
+      }
+    }
+  </script>
+
+  <!-- AOS Animation Library -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+</body>
+</html>
